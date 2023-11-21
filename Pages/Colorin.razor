@@ -1,0 +1,73 @@
+﻿@page "/colorin"
+<h3>Colorin</h3>
+
+@foreach (var color in inputs)
+{
+    <input style="margin:5px;" class="@clasecss(color.valor)" @bind="color.valor" @bind:after="Contar" />
+}
+
+<div>
+    Rojo: @rojo |
+    Verde: @verde |
+    Azul: @azul
+</div>
+
+@code {
+    int rojo, verde, azul = 0;
+
+    class Objx
+    {
+        public string valor = "";
+    }
+
+    List<Objx> inputs = new List<Objx>();
+
+    void Contar()
+    {
+        rojo = 0;
+        verde = 0;
+        azul = 0;
+
+        foreach (var color in inputs)
+        {
+            color.valor = color.valor.ToLower().Trim();
+            if (color.valor == "rojo")
+            {
+                rojo++;
+            }
+            if (color.valor == "verde")
+            {
+                verde++;
+            }
+            if (color.valor == "azul")
+            {
+                azul++;
+            }
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        for (int x = 0; x < 20; x++)
+        {
+            inputs.Add(new Objx());
+        }
+    }
+
+    string clasecss(string color)
+    {
+        if (color == "rojo")
+        {
+            return "bg-danger";
+        }
+        if (color == "verde")
+        {
+            return "bg-success";
+        }
+        if (color == "azul")
+        {
+            return "bg-primary";
+        }
+        return "";
+    }
+}
